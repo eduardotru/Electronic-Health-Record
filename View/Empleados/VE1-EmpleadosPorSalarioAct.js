@@ -37,9 +37,6 @@ $(document).ready(function()
                         "</td><td>" + dataArray[x][2] +
                         "</td><td>" + dataArray[x][3] +
                         "</td><td>" + dataArray[x][4] +
-                        "</td><td>" + dataArray[x][5] +
-                        "</td><td>" + dataArray[x][6] +
-                        "</td><td>" + dataArray[x][7] +
                         "</td>");
                 }
 

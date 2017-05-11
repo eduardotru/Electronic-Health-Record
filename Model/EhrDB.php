@@ -1,19 +1,19 @@
 <?php
 //======================================================================================================================
 //                                                          //Informacion y metodos basica de la base de datos
-class CompanyDB
+class EhrDB
 {
     public static $DB_SERVER = 'localhost';
     public static $DB_USERNAME = 'root';
     public static $DB_PASSWORD = '';
-    public static $DB_DATABASE = 'company';
+    public static $DB_DATABASE = 'ehr';
 
     //==================================================================================================================
     private static function subCreateConnection()
     {
       //                                                    //Se crea la conexion a la base de datos
       $mysqli = new mysqli(
-         CompanyDB::$DB_SERVER,CompanyDB::$DB_USERNAME,CompanyDB::$DB_PASSWORD,CompanyDB::$DB_DATABASE);
+         EhrDB::$DB_SERVER,EhrDB::$DB_USERNAME,EhrDB::$DB_PASSWORD,EhrDB::$DB_DATABASE);
 
       //                                                    //Verificacion de la connexion
       if (mysqli_connect_errno()) {
@@ -28,9 +28,9 @@ class CompanyDB
     public static function arrstrGetEmployeesBySalary($intSalary)
     {
       $outArray = false;
-      $mysqli = CompanyDB::subCreateConnection();
+      $mysqli = EhrDB::subCreateConnection();
 
-      $query = "SELECT SSN, FNAME, LNAME, dName, BDATE, ADDRES, SEX, SALARY FROM EMPLOYEE join Department on dno = dnumber WHERE Salary >= ?";
+      $query = "SELECT * FROM PATIENT WHERE id >= ?";
 
       if ($stmt = $mysqli->prepare($query))
       {
@@ -53,7 +53,7 @@ class CompanyDB
    public static function arrstrGetDepartmentsByLocation($strDepartment_I)
    {
      $outArray = false;
-     $mysqli = CompanyDB::subCreateConnection();
+     $mysqli = EhrDB::subCreateConnection();
 
      $query = "CALL spDepartmentByLocation(?)";
      if ($stmt = $mysqli->prepare($query))
@@ -77,7 +77,7 @@ class CompanyDB
   public static function arrstrGetAllLocations()
   {
     $outArray = false;
-    $mysqli = CompanyDB::subCreateConnection();
+    $mysqli = EhrDB::subCreateConnection();
 
     $query = "CALL spGetAllLocations()";
 
@@ -101,7 +101,7 @@ class CompanyDB
  public static function arrstrProjectByEmployeeCant($intMinEmployee_I, $intMaxEmployee_I)
  {
      $outArray = false;
-     $mysqli = CompanyDB::subCreateConnection();
+     $mysqli = EhrDB::subCreateConnection();
 
      $query = "SELECT pname, plocation, dname, COUNT(essn) FROM project join department on dnum = dnumber join works_on on pno = pnumber group by pname, plocation, dname having COUNT(essn) between ? and ? ";
 

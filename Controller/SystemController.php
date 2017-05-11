@@ -1,5 +1,5 @@
 <?php
-include "../Model/CompanyDB.php";
+include "../Model/EhrDB.php";
 //======================================================================================================================
 //                                                          //Variables globales obtenidas del formulario para login
 $action = $_POST["action"];
@@ -25,7 +25,7 @@ class SystemController
     {
         $intSalary_I = $_POST["intSalary"];
 
-        $result = CompanyDB::arrstrGetEmployeesBySalary($intSalary_I);
+        $result = EhrDB::arrstrGetEmployeesBySalary($intSalary_I);
 
         if ($result == false)
         {
@@ -42,7 +42,7 @@ class SystemController
     {
         $strDepartment_I = $_POST["strDepartment"];
 
-        $result = CompanyDB::arrstrGetDepartmentsByLocation($strDepartment_I);
+        $result = EhrDB::arrstrGetDepartmentsByLocation($strDepartment_I);
 
         if ($result == false)
         {
@@ -57,7 +57,7 @@ class SystemController
     //------------------------------------------------------------------------------------------------------------------
     public static function echoGetAllLocations()
     {
-        $result = CompanyDB::arrstrGetAllLocations();
+        $result = EhrDB::arrstrGetAllLocations();
 
         if ($result == false)
         {
@@ -75,7 +75,7 @@ class SystemController
         $intMinEmployee_I = $_POST["intMinEmployee"];
         $intMaxEmployee_I = $_POST["intMaxEmployee"];
 
-        $result = CompanyDB::arrstrProjectByEmployeeCant($intMinEmployee_I, $intMaxEmployee_I);
+        $result = EhrDB::arrstrProjectByEmployeeCant($intMinEmployee_I, $intMaxEmployee_I);
 
         if ($result == false)
         {
