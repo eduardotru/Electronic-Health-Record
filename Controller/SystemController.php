@@ -21,6 +21,8 @@ switch ($action)
           break;
     case "echoEmployeesBySalary": SystemController::echoEmployeesBySalary();
           break;
+    case "echoVisitas": SystemController::echoVisitas();
+          break;
 }
 //======================================================================================================================
 class SystemController
@@ -118,6 +120,23 @@ class SystemController
         if ($result == false)
         {
             echo "Error: echoMedicamentosPaciente()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+
+    public static function echoVisitas()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+
+        $result = EhrDB::arrstrVisitas($strFname, $strLname);
+
+        if ($result == false)
+        {
+            echo "Error: echoVisitas()";
         }
         else
         {
