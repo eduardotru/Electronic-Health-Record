@@ -27,6 +27,8 @@ switch ($action)
           break;
     case "echoVisitas": SystemController::echoVisitas();
           break;
+    case "echoVecesMedicamento": SystemController::echoVecesMedicamento();
+          break;
 }
 //======================================================================================================================
 class SystemController
@@ -176,6 +178,23 @@ class SystemController
         if ($result == false)
         {
             echo "Error: echoTodosDoctores()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+
+    public static function echoVecesMedicamento()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+
+        $result = EhrDB::arrstrVecesMedicamento($strFname, $strLname);
+
+        if ($result == false)
+        {
+            echo "Error: echoVecesMedicamento()";
         }
         else
         {
