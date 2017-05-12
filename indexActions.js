@@ -39,6 +39,18 @@ $(document).ready(function() {
             case "D1":
                  $("#divReport").load("View/Doctores/TodosDoctores.html");
                 break;
+            case "L2":
+                 $("#divReport").load("View/PruebasLab/TodasPruebas.html");
+                break;
+            case "L3":
+                 $("#divReport").load("View/PruebasLab/Anormales.html");
+                break;
+            case "M1":
+                 $("#divReport").load("View/Medicamentos/CatalogoMedicamentos.html");
+                break;
+            case "EHR":
+                $("#divReport").load("View/EHR/EHR.html");
+                break;
             default:
                 $("#alrSelectReport").toggle("slow");
                 break;

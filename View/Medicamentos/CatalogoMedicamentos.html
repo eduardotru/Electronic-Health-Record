@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<!--=================================================================================================================-->
+<head>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <!--                                                          //Import basicos de estilo                         -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+</head>
+
+<!--=================================================================================================================-->
+<body>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+    <div class="container">
+
+
+        <!------------------------------------------------------------------------------------------------------------->
+        <h2>Catalogo medicamentos</h2>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!--                                                //Boton para agregar usuario                             -->
+        <div class="row form">
+          <div class="col-sm-8">
+              <label for="inNombre">Nombre generico:</label>
+            <input  id="inNombre" type="text" value="" class="form-control"style="margin-bottom:10px" placeholder="Paracetamol"></input>
+          </div>
+        
+          <div class="col-sm-4">
+            <button id="btnRecalcularReporte" type="button" class=" btn btn-primary pull-right button">Buscar</button>
+          </div>
+        </div>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre generico</th>
+                    <th>Efectos secundarios</th>
+                    <th>Comentarios</th>
+                </tr>
+            </thead>
+            <tbody id="tbleCatalogoMedicamentos">
+            </tbody>
+        </table>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <div id="divSign" style="text-align: center">
+        </div>
+
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    </div>
+
+    <!----------------------------------------------------------------------------------------------------------------->
+</body>
+
+<!--=================================================================================================================-->
+<script src="View/Medicamentos/CatalogoMedicamentosAction.js"></script>
+
+<!--=================================================================================================================-->
+</html>

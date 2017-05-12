@@ -25,6 +25,78 @@ class EhrDB
     }
 
     //==================================================================================================================
+     public static function arrstrTodasPruebas($strFname, $strLname, $strPrueba)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "(select p.fname, p.lname, lc.name, dateLabtest, indicator, testVal, minVal, maxVal, isAnormal from patient p join record r on p.id = r.idPatient join labtest l on l.idRecord = r.id join labtestCatalog lc on lc.id = l.idLabtestCatalog join labtestResults lr on lr.idLabtest = l.id join labtestIndicatorCatalog lic on lic.id = lr.idLabtestIndicatorCatalog where p.fname like ? and p.lname like ? and lc.name like ? and testval is not null) union (select p.fname, p.lname, lc.name, dateLabtest, indicator, valtext, minVal, maxVal, isAnormal from patient p join record r on p.id = r.idPatient join labtest l on l.idRecord = r.id join labtestCatalog lc on lc.id = l.idLabtestCatalog join labtestResults lr on lr.idLabtest = l.id join labtestIndicatorCatalog lic on lic.id = lr.idLabtestIndicatorCatalog where p.fname like ? and p.lname like ? and lc.name like ? and valtext is not null)";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strFname == "")
+          {
+            $strFname = "%";
+          }
+          if($strLname == "")
+          {
+            $strLname = "%";
+          }
+          if($strPrueba == "")
+          {
+            $strPrueba = "%";
+          }
+          $stmt->bind_param("ssssss", $strFname, $strLname, $strPrueba, $strFname, $strLname, $strPrueba);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
+     
+     public static function arrstrAnormales($strFname, $strLname, $strPrueba)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "(select lc.id, p.fname, p.lname, lc.name, dateLabtest, lic.id, indicator, testVal, minVal, maxVal, isAnormal from patient p join record r on p.id = r.idPatient join labtest l on l.idRecord = r.id join labtestCatalog lc on lc.id = l.idLabtestCatalog join labtestResults lr on lr.idLabtest = l.id join labtestIndicatorCatalog lic on lic.id = lr.idLabtestIndicatorCatalog where p.fname like ? and p.lname like ? and lc.name like ? and testval is not null and EXISTS (select * from labtestResults lr where l.id = lr.idLabtest and lr.isAnormal = 'Y')) union (select lc.id, p.fname, p.lname, lc.name, dateLabtest, lic.id, indicator, valtext, minVal, maxVal, isAnormal from patient p join record r on p.id = r.idPatient join labtest l on l.idRecord = r.id join labtestCatalog lc on lc.id = l.idLabtestCatalog join labtestResults lr on lr.idLabtest = l.id join labtestIndicatorCatalog lic on lic.id = lr.idLabtestIndicatorCatalog where p.fname like ? and p.lname like ? and lc.name like ? and valtext is not null and EXISTS (select * from labtestResults lr where l.id = lr.idLabtest and lr.isAnormal = 'Y') order by datelabtest, lc.id, lic.id)";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strFname == "")
+          {
+            $strFname = "%";
+          }
+          if($strLname == "")
+          {
+            $strLname = "%";
+          }
+          if($strPrueba == "")
+          {
+            $strPrueba = "%";
+          }
+          $stmt->bind_param("ssssss", $strFname, $strLname, $strPrueba, $strFname, $strLname, $strPrueba);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
+     
      public static function arrstrUltimaPruebaLab($strFname, $strLname, $strPrueba)
    {
        $outArray = false;
@@ -61,82 +133,37 @@ class EhrDB
        return json_encode($outArray);
     }
 
-    
-    public static function arrstrGetEmployeesBySalary($intSalary)
-    {
-      $outArray = false;
-      $mysqli = EhrDB::subCreateConnection();
+     public static function arrstrCatalogoMedicamentos($strGeneric)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
 
-      $query = "SELECT * FROM PATIENT WHERE id >= ?";
+       $query = "select genericName, sideeffects, comments from drugcatalog where genericName like ?";
 
-      if ($stmt = $mysqli->prepare($query))
-      {
-          $stmt->bind_param("d", $intSalary);
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strGeneric == "")
+          {
+            $strGeneric = "%";
+          }
+          
+          $stmt->bind_param("s", $strGeneric);
           $stmt->execute();
           $result = $stmt->get_result();
 
-          $outArray = array();
-          while ($row = mysqli_fetch_row($result)) {
-              $outArray[] = $row;
-          }
-          $stmt->close();
-      }
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
 
-      $mysqli->close();
-      return json_encode($outArray);
-   }
-
-   //-------------------------------------------------------------------------------------------------------------------
-   public static function arrstrGetDepartmentsByLocation($strDepartment_I)
-   {
-     $outArray = false;
-     $mysqli = EhrDB::subCreateConnection();
-
-     $query = "CALL spDepartmentByLocation(?)";
-     if ($stmt = $mysqli->prepare($query))
-     {
-         $stmt->bind_param("s", $strDepartment_I);
-         $stmt->execute();
-         $result = $stmt->get_result();
-
-         $outArray = array();
-         while ($row = mysqli_fetch_row($result)) {
-             $outArray[] = $row;
-         }
-         $stmt->close();
-     }
-
-     $mysqli->close();
-     return json_encode($outArray);
-  }
-
-  //-------------------------------------------------------------------------------------------------------------------
-  public static function arrstrGetAllLocations()
-  {
-    $outArray = false;
-    $mysqli = EhrDB::subCreateConnection();
-
-    $query = "CALL spGetAllLocations()";
-
-    if ($stmt = $mysqli->prepare($query))
-    {
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $outArray = array();
-        while ($row = mysqli_fetch_row($result)) {
-            $outArray[] = $row;
-        }
-        $stmt->close();
+       $mysqli->close();
+       return json_encode($outArray);
     }
 
-    $mysqli->close();
-    return json_encode($outArray);
- }
-
- //-------------------------------------------------------------------------------------------------------------------
- public static function arrstrAlergias($strFname, $strLname)
- {
+    public static function arrstrAlergias($strFname, $strLname)
+    {
      $outArray = false;
      $mysqli = EhrDB::subCreateConnection();
 

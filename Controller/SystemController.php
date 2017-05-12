@@ -9,7 +9,13 @@ $action = $_POST["action"];
 //                                                          //    estandar
 switch ($action)
 {
+    case "echoTodasPruebas": SystemController::echoTodasPruebas();
+          break;
+    case "echoAnormales": SystemController::echoAnormales();
+          break;
     case "echoUltimaPruebaLab": SystemController::echoUltimaPruebaLab();
+          break;
+    case "echoCatalogoMedicamentos": SystemController::echoCatalogoMedicamentos();
           break;
     case "echoTodosDoctores": SystemController::echoTodosDoctores();
           break;
@@ -19,12 +25,6 @@ switch ($action)
           break;
     case "echoAlergias": SystemController::echoAlergias();
           break;
-    case "echoGetAllLocations": SystemController::echoGetAllLocations();
-          break;
-    case "echoDepartmentByLocation": SystemController::echoDepartmentByLocation();
-          break;
-    case "echoEmployeesBySalary": SystemController::echoEmployeesBySalary();
-          break;
     case "echoVisitas": SystemController::echoVisitas();
           break;
     case "echoVecesMedicamento": SystemController::echoVecesMedicamento();
@@ -33,6 +33,41 @@ switch ($action)
 //======================================================================================================================
 class SystemController
 {
+    public static function echoTodasPruebas()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+        $strPrueba = $_POST["strPrueba"];
+
+        $result = EhrDB::arrstrTodasPruebas($strFname, $strLname, $strPrueba);
+
+        if ($result == false)
+        {
+            echo "Error: echoUltimaPruebaLab()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+
+    public static function echoAnormales()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+        $strPrueba = $_POST["strPrueba"];
+
+        $result = EhrDB::arrstrAnormales($strFname, $strLname, $strPrueba);
+
+        if ($result == false)
+        {
+            echo "Error: echoUltimaPruebaLab()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
 
     public static function echoUltimaPruebaLab()
     {
@@ -51,56 +86,23 @@ class SystemController
             echo $result;
         }
     }
+
+    public static function echoCatalogoMedicamentos()
+    {
+        $strGeneric = $_POST["strGeneric"];
+
+        $result = EhrDB::arrstrCatalogoMedicamentos($strGeneric);
+
+        if ($result == false)
+        {
+            echo "Error: echoCatalogoMedicamentos()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
     
-    public static function echoEmployeesBySalary()
-    {
-        $intSalary_I = $_POST["intSalary"];
-
-        $result = EhrDB::arrstrGetEmployeesBySalary($intSalary_I);
-
-        if ($result == false)
-        {
-            echo "Error: echoEmployeesBySalary()";
-        }
-        else
-        {
-            echo $result;
-        }
-    }
-
-    //------------------------------------------------------------------------------------------------------------------
-    public static function echoDepartmentByLocation()
-    {
-        $strDepartment_I = $_POST["strDepartment"];
-
-        $result = EhrDB::arrstrGetDepartmentsByLocation($strDepartment_I);
-
-        if ($result == false)
-        {
-            echo "Error: echoDepartmentByLocation()";
-        }
-        else
-        {
-            echo $result;
-        }
-    }
-
-    //------------------------------------------------------------------------------------------------------------------
-    public static function echoGetAllLocations()
-    {
-        $result = EhrDB::arrstrGetAllLocations();
-
-        if ($result == false)
-        {
-            echo "Error: echoGetAllLocations()";
-        }
-        else
-        {
-            echo $result;
-        }
-    }
-
-    //------------------------------------------------------------------------------------------------------------------
     public static function echoAlergias()
     {
         $strFname = $_POST["strFname"];

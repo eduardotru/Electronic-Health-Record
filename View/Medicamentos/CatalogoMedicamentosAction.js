@@ -13,9 +13,8 @@ $(document).ready(function()
     {
         var jsonData =
         {
-            "intMinEmployee": $("#inMinEmployee").val(),
-            "intMaxEmployee": $("#inMaxEmployee").val(),
-            "action": "echoProjectByEmployeeCant"
+            "strGeneric": $("#inNombre").val(),
+            "action": "echoCatalogoMedicamentos"
         };
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -27,18 +26,15 @@ $(document).ready(function()
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             success: function(jsonResponse)
             {
-                console.log($("#inMinEmployee").val());
-                console.log($("#inMaxEmployee").val());
-                console.log(jsonResponse);
+                //console.log(jsonResponse);
                 //                                              //Pasa la informacion a un arreglo entendibel por js y
                 //                                              //      adjunta a la tabla.
                 var dataArray = jQuery.parseJSON(jsonResponse);
                 for (var x = 0; x < dataArray.length; x++) {
-                    $("#tbleProyectosPorCantidadDeEmpleados").append(
-                        "<tr id=\"" + dataArray[x][0] + "\"><td>" + dataArray[x][0] +
+                    $("#tbleCatalogoMedicamentos").append(
+                        "<tr><td>" + dataArray[x][0] +
                         "</td><td>" + dataArray[x][1] +
                         "</td><td>" + dataArray[x][2] +
-                        "</td><td>" + dataArray[x][3] +
                         "</td>");
                 }
 
@@ -59,7 +55,7 @@ $(document).ready(function()
 
     //------------------------------------------------------------------------------------------------------------------
     $("#btnRecalcularReporte").on("click", function() {
-        $("#tbleProyectosPorCantidadDeEmpleados > tr").remove();
+        $("#tbleCatalogoMedicamentos > tr").remove();
         subLoadReport();
     });
 
