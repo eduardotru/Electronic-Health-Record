@@ -225,7 +225,6 @@ class EhrDB
         $mysqli->close();
         return json_encode($outArray);
      }
-  
     public static function arrstrTodosDoctores($strName, $strEspecialidad)
    {
        $outArray = false;
@@ -244,6 +243,38 @@ class EhrDB
             $strEspecialidad = "%";
           }
           $stmt->bind_param("ss", $strName, $strEspecialidad);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
+
+    public static function arrstrVecesMedicamento($strFname, $strLname)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "select fName, lName, genericName, COUNT(*) as 'Times prescripted' from patient p join record r on p.id = r.idPatient join doctorVisit dv on dv.idRecord = r.id join prescription pr on pr.id = dv.idPrescription join prescriptionDetails pd on pd.idPrescription = pr.id join drugCatalog dc on pd.idDrugCatalog = dc.id where p.fname like ? and p.lname like ? group by fname, lname, genericName";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strFname == "")
+          {
+            $strFname = "%";
+          }
+          if($strLname == "")
+          {
+            $strLname = "%";
+          }
+          $stmt->bind_param("ss", $strFname, $strLname);
           $stmt->execute();
           $result = $stmt->get_result();
 
