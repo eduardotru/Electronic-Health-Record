@@ -9,6 +9,8 @@ $action = $_POST["action"];
 //                                                          //    estandar
 switch ($action)
 {
+    case "echoTodosDoctores": SystemController::echoTodosDoctores();
+          break;
     case "echoMedicamentosPaciente": SystemController::echoMedicamentosPaciente();
           break;
     case "echoTodosPacientes": SystemController::echoTodosPacientes();
@@ -137,6 +139,22 @@ class SystemController
         if ($result == false)
         {
             echo "Error: echoVisitas()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+    public static function echoTodosDoctores()
+    {
+        $strName = $_POST["strName"];
+        $strEspecialidad = $_POST["strEspecialidad"];
+
+        $result = EhrDB::arrstrTodosDoctores($strName, $strEspecialidad);
+
+        if ($result == false)
+        {
+            echo "Error: echoTodosDoctores()";
         }
         else
         {

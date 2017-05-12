@@ -225,6 +225,38 @@ class EhrDB
         $mysqli->close();
         return json_encode($outArray);
      }
+  
+    public static function arrstrTodosDoctores($strName, $strEspecialidad)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "select cedulaprof, name, specialty from doctor where name like ? and specialty like ?";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strName == "")
+          {
+            $strName = "%";
+          }
+          if($strEspecialidad == "")
+          {
+            $strEspecialidad = "%";
+          }
+          $stmt->bind_param("ss", $strName, $strEspecialidad);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
 
   //-------------------------------------------------------------------------------------------------------------------
 }
