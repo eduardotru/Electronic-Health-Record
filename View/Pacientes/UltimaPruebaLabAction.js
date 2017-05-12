@@ -13,8 +13,10 @@ $(document).ready(function()
     {
         var jsonData =
         {
-            "intSalary": $("#inSalary").val(),
-            "action": "echoEmployeesBySalary"
+            "strFname": $("#inNombre").val(),
+            "strLname": $("#inApellido").val(),
+            "strPrueba": $("#inPrueba").val(),
+            "action": "echoUltimaPruebaLab"
         };
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,12 +33,16 @@ $(document).ready(function()
                 //                                              //      adjunta a la tabla.
                 var dataArray = jQuery.parseJSON(jsonResponse);
                 for (var x = 0; x < dataArray.length; x++) {
-                    $("#tbleTodosPacientes").append(
-                        "<tr id=\"" + dataArray[x][0] + "\"><td>" + dataArray[x][0] +
+                    $("#tbleUltimaPruebaLab").append(
+                        "<tr><td>" + dataArray[x][0] +
                         "</td><td>" + dataArray[x][1] +
                         "</td><td>" + dataArray[x][2] +
                         "</td><td>" + dataArray[x][3] +
                         "</td><td>" + dataArray[x][4] +
+                        "</td><td>" + dataArray[x][5] +
+                        "</td><td>" + dataArray[x][6] +
+                        "</td><td>" + dataArray[x][7] +
+                        "</td><td>" + dataArray[x][8] +
                         "</td>");
                 }
 
@@ -57,7 +63,7 @@ $(document).ready(function()
 
     //------------------------------------------------------------------------------------------------------------------
     $("#btnRecalcularReporte").on("click", function() {
-        $("#tbleEmpleadosPorSalario > tr").remove();
+        $("#tbleUltimaPruebaLab > tr").remove();
         subLoadReport();
     });
 

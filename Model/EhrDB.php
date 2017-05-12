@@ -25,6 +25,43 @@ class EhrDB
     }
 
     //==================================================================================================================
+     public static function arrstrUltimaPruebaLab($strFname, $strLname, $strPrueba)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "select p.fname, p.lname, lc.name, dateLabtest, indicator, testVal, minVal as Minimo, maxVal as Maximo, isAnormal from patient p join record r on p.id = r.idPatient join labtest l on l.idRecord = r.id join labtestCatalog lc on lc.id = l.idLabtestCatalog join labtestResults lr on lr.idLabtest = l.id join labtestIndicatorCatalog lic on lic.id = lr.idLabtestIndicatorCatalog where p.fname like ? and p.lname like ? and lc.name like ? and l.dateLabtest = (select MAX(dateLabtest) from labtest l join labtestCatalog lc2 on l.idLabtestCatalog = lc2.id where lc2.name = lc.name)";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strFname == "")
+          {
+            $strFname = "%";
+          }
+          if($strLname == "")
+          {
+            $strLname = "%";
+          }
+          if($strPrueba == "")
+          {
+            $strPrueba = "%";
+          }
+          $stmt->bind_param("sss", $strFname, $strLname, $strPrueba);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
+
+    
     public static function arrstrGetEmployeesBySalary($intSalary)
     {
       $outArray = false;

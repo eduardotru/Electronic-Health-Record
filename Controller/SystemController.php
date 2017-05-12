@@ -9,6 +9,8 @@ $action = $_POST["action"];
 //                                                          //    estandar
 switch ($action)
 {
+    case "echoUltimaPruebaLab": SystemController::echoUltimaPruebaLab();
+          break;
     case "echoTodosDoctores": SystemController::echoTodosDoctores();
           break;
     case "echoMedicamentosPaciente": SystemController::echoMedicamentosPaciente();
@@ -29,6 +31,25 @@ switch ($action)
 //======================================================================================================================
 class SystemController
 {
+
+    public static function echoUltimaPruebaLab()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+        $strPrueba = $_POST["strPrueba"];
+
+        $result = EhrDB::arrstrUltimaPruebaLab($strFname, $strLname, $strPrueba);
+
+        if ($result == false)
+        {
+            echo "Error: echoUltimaPruebaLab()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+    
     public static function echoEmployeesBySalary()
     {
         $intSalary_I = $_POST["intSalary"];
