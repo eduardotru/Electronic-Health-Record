@@ -22,15 +22,18 @@
 
 
         <!------------------------------------------------------------------------------------------------------------->
-        <h2>Empleados por salario</h2>
+        <h2>Todos los pacientes</h2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!--                                                //Boton para agregar usuario                             -->
         <div class="row form">
-          <div class="col-sm-8">
-              <label for="inSalary">Salario superior igual a:</label>
-            <input  id="inSalary" type="number" value=0 class="form-control"style="margin-bottom:10px"
-              placeholder="Salario minimo"></input>
+          <div class="col-sm-4">
+              <label for="inNombre">Nombre:</label>
+            <input  id="inNombre" type="text" value="" class="form-control"style="margin-bottom:10px" placeholder="James"></input>
+          </div>
+          <div class="col-sm-4">
+              <label for="inApellido">Apellido:</label>
+            <input  id="inApellido" type="text" value="" class="form-control"style="margin-bottom:10px" placeholder="Perez"></input>
           </div>
 
           <div class="col-sm-4">
@@ -46,12 +49,14 @@
                     <th>Apellido</th>
                     <th>Fecha de nacimiento</th>
                     <th>Sexo</th>
+                    <th>Tipo de sangre</th>
+                    <th>Número de alergias</th>
                 </tr>
             </thead>
-            <tbody id="tbleEmpleadosPorSalario">
+            <tbody id="tbleTodosPacientes">
             </tbody>
         </table>
-        
+
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div id="divSign" style="text-align: center">
         </div>
@@ -63,7 +68,7 @@
 </body>
 
 <!--=================================================================================================================-->
-<script src="View/Empleados/VE1-EmpleadosPorSalarioAct.js"></script>
+<script src="View/Pacientes/TodosPacientesAction.js"></script>
 
 <!--=================================================================================================================-->
 </html>

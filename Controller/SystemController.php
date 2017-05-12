@@ -9,7 +9,11 @@ $action = $_POST["action"];
 //                                                          //    estandar
 switch ($action)
 {
-    case "echoProjectByEmployeeCant": SystemController::echoProjectByEmployeeCant();
+    case "echoMedicamentosPaciente": SystemController::echoMedicamentosPaciente();
+          break;
+    case "echoTodosPacientes": SystemController::echoTodosPacientes();
+          break;
+    case "echoAlergias": SystemController::echoAlergias();
           break;
     case "echoGetAllLocations": SystemController::echoGetAllLocations();
           break;
@@ -70,16 +74,50 @@ class SystemController
     }
 
     //------------------------------------------------------------------------------------------------------------------
-    public static function echoProjectByEmployeeCant()
+    public static function echoAlergias()
     {
-        $intMinEmployee_I = $_POST["intMinEmployee"];
-        $intMaxEmployee_I = $_POST["intMaxEmployee"];
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
 
-        $result = EhrDB::arrstrProjectByEmployeeCant($intMinEmployee_I, $intMaxEmployee_I);
+        $result = EhrDB::arrstrAlergias($strFname, $strLname);
 
         if ($result == false)
         {
-            echo "Error: echoProjectByEmployeeCant()";
+            echo "Error: echoAlergias()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+
+    public static function echoTodosPacientes()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+
+        $result = EhrDB::arrstrTodosPacientes($strFname, $strLname);
+
+        if ($result == false)
+        {
+            echo "Error: echoTodosPacientes()";
+        }
+        else
+        {
+            echo $result;
+        }
+    }
+
+    public static function echoMedicamentosPaciente()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+
+        $result = EhrDB::arrstrMedicamentosPaciente($strFname, $strLname);
+
+        if ($result == false)
+        {
+            echo "Error: echoMedicamentosPaciente()";
         }
         else
         {

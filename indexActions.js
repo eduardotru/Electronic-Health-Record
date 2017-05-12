@@ -18,14 +18,23 @@ $(document).ready(function() {
 
         switch (strId)
         {
-            case "VE1":
-                $("#divReport").load("View/Empleados/VE1-EmpleadosPorSalarioDiv.html");
+            case "P1":
+                $("#divReport").load("View/Pacientes/TodosPacientes.html");
                 break;
-            case "VD1":
-                $("#divReport").load("View/Departamentos/VD1-DepartamentosPorLocacionDiv.html");
+            case "P2":
+                $("#divReport").load("View/Pacientes/Visitas.html");
                 break;
-            case "VP1":
-                $("#divReport").load("View/Proyectos/VP1-ProyectosPorCantidadDeEmpleadosDiv.html");
+            case "P3":
+                $("#divReport").load("View/Pacientes/MedicamentosPaciente.html");
+                break;
+            case "P4":
+                $("#divReport").load("View/Pacientes/VecesMedicamento.html");
+                break;
+            case "P5":
+                $("#divReport").load("View/Pacientes/Alergias.html");
+                break;
+            case "P6":
+                $("#divReport").load("View/Pacientes/UltimaPruebaLab.html");
                 break;
             default:
                 $("#alrSelectReport").toggle("slow");

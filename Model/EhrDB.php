@@ -98,17 +98,24 @@ class EhrDB
  }
 
  //-------------------------------------------------------------------------------------------------------------------
- public static function arrstrProjectByEmployeeCant($intMinEmployee_I, $intMaxEmployee_I)
+ public static function arrstrAlergias($strFname, $strLname)
  {
      $outArray = false;
      $mysqli = EhrDB::subCreateConnection();
 
-     $query = "SELECT pname, plocation, dname, COUNT(essn) FROM project join department on dnum = dnumber join works_on on pno = pnumber group by pname, plocation, dname having COUNT(essn) between ? and ? ";
+     $query = "SELECT fname, lname, allergy FROM patient p join record r on p.id = r.idPatient join allergies a on r.id = a.idRecord where fname like ? and lname like ?";
 
      if ($stmt = $mysqli->prepare($query))
      {
-        $arr = array("min"=>$intMinEmployee_I,"max"=>$intMaxEmployee_I);
-        $stmt->bind_param("ii", $arr['min'], $arr['max']);
+        if($strFname == "")
+        {
+          $strFname = "%";
+        }
+        if($strLname == "")
+        {
+          $strLname = "%";
+        }
+        $stmt->bind_param("ss", $strFname, $strLname);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -122,6 +129,70 @@ class EhrDB
      $mysqli->close();
      return json_encode($outArray);
   }
+
+  public static function arrstrTodosPacientes($strFname, $strLname)
+  {
+      $outArray = false;
+      $mysqli = EhrDB::subCreateConnection();
+
+      $query = "SELECT p.id, fname, lname, birthdate, sex, bloodType, COUNT(allergy) FROM patient p join record r on p.id = r.idPatient join allergies a on r.id = a.idRecord where fname like ? and lname like ? group by id, fname, lname, birthdate, bloodType";
+
+      if ($stmt = $mysqli->prepare($query))
+      {
+         if($strFname == "")
+         {
+           $strFname = "%";
+         }
+         if($strLname == "")
+         {
+           $strLname = "%";
+         }
+         $stmt->bind_param("ss", $strFname, $strLname);
+         $stmt->execute();
+         $result = $stmt->get_result();
+
+          $outArray = array();
+          while ($row = mysqli_fetch_row($result)) {
+              $outArray[] = $row;
+          }
+          $stmt->close();
+      }
+
+      $mysqli->close();
+      return json_encode($outArray);
+   }
+
+   public static function arrstrMedicamentosPaciente($strFname, $strLname)
+   {
+       $outArray = false;
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "SELECT fname, lname, genericName, startdate, dateDiff(enddate, startdate) AS numberDays, instructions, sideEffects, dc.comments from patient p join record r on p.id = r.idPatient join doctorVisit dv on dv.idRecord = r.id join prescription pr on pr.id = dv.idPrescription join prescriptionDetails pd on pd.idPrescription = pr.id join drugCatalog dc on pd.idDrugCatalog = dc.id where p.fname like ? and p.lname like ?";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          if($strFname == "")
+          {
+            $strFname = "%";
+          }
+          if($strLname == "")
+          {
+            $strLname = "%";
+          }
+          $stmt->bind_param("ss", $strFname, $strLname);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+           $outArray = array();
+           while ($row = mysqli_fetch_row($result)) {
+               $outArray[] = $row;
+           }
+           $stmt->close();
+       }
+
+       $mysqli->close();
+       return json_encode($outArray);
+    }
 
   //-------------------------------------------------------------------------------------------------------------------
 }
