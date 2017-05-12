@@ -36,6 +36,9 @@ $(document).ready(function() {
             case "P6":
                 $("#divReport").load("View/Pacientes/UltimaPruebaLab.html");
                 break;
+            case "D1":
+                 $("#divReport").load("View/Doctores/TodosDoctores.html");
+                break;
             default:
                 $("#alrSelectReport").toggle("slow");
                 break;

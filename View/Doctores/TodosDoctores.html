@@ -22,20 +22,21 @@
 
 
         <!------------------------------------------------------------------------------------------------------------->
-        <h2>Departamentos por locacion</h2>
+        <h2>Alergias por paciente</h2>
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!--                                                //Boton para agregar usuario                             -->
         <div class="row form">
-
-          <div class="col-sm-8">
-              <label for="inSalary">Locacion:</label>
-              <Select  id="inLocation" class="form-control"style="margin-bottom:10px">
-              <option value="null" selected="true">Selecciona una locacion</option>
-              </Select>
+          <div class="col-sm-4">
+              <label for="inNombre">Nombre:</label>
+            <input  id="inNombre" type="text" value="" class="form-control"style="margin-bottom:10px" placeholder="Phil Collins"></input>
+          </div>
+          <div class="col-sm-4">
+              <label for="inEspecialidad">Especialidad:</label>
+            <input  id="inEspecialidad" type="text" value="" class="form-control"style="margin-bottom:10px" placeholder="Cardiologo"></input>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <button id="btnRecalcularReporte" type="button" class=" btn btn-primary pull-right button">Buscar</button>
           </div>
         </div>
@@ -43,13 +44,12 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Nombre de departamento</th>
-                    <th>Manager</th>
+                    <th>Cedula Profesional</th>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
                 </tr>
             </thead>
-            <tbody id="tbleDepartamentosPorLocacion">
-
+            <tbody id="tbleTodosDoctores">
             </tbody>
         </table>
 
@@ -64,7 +64,7 @@
 </body>
 
 <!--=================================================================================================================-->
-<script src="View/Departamentos/VD1-DepartamentosPorLocacionAct.js"></script>
+<script src="View/Doctores/TodosDoctoresAction.js"></script>
 
 <!--=================================================================================================================-->
 </html>
