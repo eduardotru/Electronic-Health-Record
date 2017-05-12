@@ -194,6 +194,38 @@ class EhrDB
        return json_encode($outArray);
     }
 
+    public static function arrstrVisitas($strFname, $strLname)
+    {
+        $outArray = false;
+        $mysqli = EhrDB::subCreateConnection();
+
+        $query = "SELECT fName, lName, dateVisit, temp, height, bloodPressureS, bloodPressureD, comments, name AS 'Doctor' FROM doctorVisit dv join doctor d on dv.idDoctor = d. id join record r on dv.idRecord = r.id join patient p on r.idPatient = p.id where p.fname like ? and p.lname like ? order by dateVisit ASC";
+
+        if ($stmt = $mysqli->prepare($query))
+        {
+           if($strFname == "")
+           {
+             $strFname = "%";
+           }
+           if($strLname == "")
+           {
+             $strLname = "%";
+           }
+           $stmt->bind_param("ss", $strFname, $strLname);
+           $stmt->execute();
+           $result = $stmt->get_result();
+
+            $outArray = array();
+            while ($row = mysqli_fetch_row($result)) {
+                $outArray[] = $row;
+            }
+            $stmt->close();
+        }
+
+        $mysqli->close();
+        return json_encode($outArray);
+     }
+  
     public static function arrstrTodosDoctores($strName, $strEspecialidad)
    {
        $outArray = false;
