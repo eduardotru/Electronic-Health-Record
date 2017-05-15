@@ -64,6 +64,21 @@ $(document).ready(function()
         subLoadReport();
     });
 
+    $("#btnBorrarPaciente").on("click", function() {
+        var jsonData = {
+            "strFname": $("#inNombre").val(),
+            "strLname": $("#inApellido").val(),
+            "action": "echoBorrar"
+        };
+
+        $.ajax({
+            url: "Controller/SystemController.php",
+            type: "POST",
+            data: jsonData});
+         $("#tbleTodosPacientes > tr").remove();
+        subLoadReport();
+    });
+
     //==================================================================================================================
 });
 

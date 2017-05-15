@@ -2,13 +2,6 @@
 $(document).ready(function()
 {
     //==================================================================================================================
-    //														                          //Prepara las configuraciones inicales para la pagina
-    //														                          //		cargada. Inicialmente se debe cargar todos los
-    //                                                      //      empleados registrados a la tabla.
-
-    subLoadReport();
-
-    //==================================================================================================================
     function subLoadReport()
     {
         var jsonData =

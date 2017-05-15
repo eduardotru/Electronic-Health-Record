@@ -29,6 +29,8 @@ switch ($action)
           break;
     case "echoVecesMedicamento": SystemController::echoVecesMedicamento();
           break;
+    case "echoBorrar": SystemController::echoBorrar();
+          break;
 }
 //======================================================================================================================
 class SystemController
@@ -202,6 +204,14 @@ class SystemController
         {
             echo $result;
         }
+    }
+
+    public static function echoBorrar()
+    {
+        $strFname = $_POST["strFname"];
+        $strLname = $_POST["strLname"];
+
+        EhrDB::deletePatient($strFname, $strLname);
     }
 
     //------------------------------------------------------------------------------------------------------------------

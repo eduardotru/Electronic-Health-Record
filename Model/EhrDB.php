@@ -353,6 +353,20 @@ class EhrDB
        return json_encode($outArray);
     }
 
+     public static function deletePatient($strFname, $strLname)
+   {
+       $mysqli = EhrDB::subCreateConnection();
+
+       $query = "Call deletePatient(?,?)";
+
+       if ($stmt = $mysqli->prepare($query))
+       {
+          $stmt->bind_param("ss", $strFname, $strLname);
+          $stmt->execute();
+       }
+       $mysqli->close();
+    }
+
   //-------------------------------------------------------------------------------------------------------------------
 }
 
